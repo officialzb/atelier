@@ -1,19 +1,19 @@
 name: BFI IMAX Odyssey ticket watch
 
-# Weekly watcher for Christopher Nolan's "The Odyssey" (IMAX 70mm) at BFI IMAX.
+# Daily watcher for Christopher Nolan's "The Odyssey" (IMAX 70mm) at BFI IMAX.
 # It reads the BFI booking page and, when the target month (default September
 # 2026) becomes bookable, opens/updates a GitHub issue that @mentions and
 # assigns the repo owner (which sends you an email notification).
 #
 # IMPORTANT: GitHub only runs `schedule` triggers on the repository's DEFAULT
-# branch. This must be merged to `main` for the weekly run to fire. Until then,
-# use the "Run workflow" button (workflow_dispatch) to test it on this branch.
+# branch. This must be on `main` for the scheduled run to fire (that also
+# enables the manual "Run workflow" button).
 
 on:
   schedule:
-    # Weekly on Wednesday at 09:23 UTC (~10:23 UK in summer).
+    # Daily at 09:23 UTC (~10:23 UK in summer).
     # Off the :00 mark on purpose; GitHub may delay scheduled runs under load.
-    - cron: "23 9 * * 3"
+    - cron: "23 9 * * *"
   workflow_dispatch:
     inputs:
       month:

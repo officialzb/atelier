@@ -1,6 +1,6 @@
 # BFI IMAX — "The Odyssey" ticket watcher
 
-A small, dependency-free weekly watcher that checks whether **Christopher
+A small, dependency-free daily watcher that checks whether **Christopher
 Nolan's _The Odyssey_ (IMAX 70mm)** is bookable at **BFI IMAX Waterloo** for a
 target month (default **September 2026**), and pings you when it is.
 
@@ -26,19 +26,19 @@ quickly.
   emails you). It's idempotent: one open issue, a comment only when the status
   actually changes, and it closes the issue if September stops being listed.
 - [`../../.github/workflows/bfi-imax-odyssey-watch.yml`](../../.github/workflows/bfi-imax-odyssey-watch.yml)
-  runs it **weekly (Wed 09:23 UTC)**.
+  runs it **daily (09:23 UTC)**.
 
 Runs on GitHub-hosted runners, which reach the BFI site directly (unlike some
 sandboxed environments that proxy-block `bfi.org.uk`).
 
-## ⚠️ To activate the weekly schedule: merge to `main`
+## ⚠️ To activate the daily schedule: merge to `main`
 
 GitHub fires **both** `schedule:` triggers and the manual **Run workflow**
 button only when the workflow exists on the repository's **default branch**.
 While this lives on a feature branch it will **not** run — scheduled or manual.
 
 - **To go live:** merge this branch into `main`.
-- **After it's on `main`:** the weekly run is automatic, and you can also trigger
+- **After it's on `main`:** the daily run is automatic, and you can also trigger
   it on demand via Actions tab → _BFI IMAX Odyssey ticket watch_ → **Run
   workflow** (with optional month/year overrides).
 - **Before merging**, you can still exercise the logic locally — see _Run
@@ -52,7 +52,7 @@ not a concern for a two-month watch, but worth knowing.)
 You get an email when the tracking issue is opened/updated (via the assignment +
 `@mention`), provided your GitHub notification settings email you for those.
 Every run also writes its result to the workflow **run summary** in the Actions
-tab, so you can see it worked even on quiet weeks.
+tab, so you can see it worked even on quiet days.
 
 ## What it does *not* do
 
@@ -66,8 +66,8 @@ need an LLM-in-the-loop routine (see below).
 
 - **Month / year:** change the `schedule` defaults in the workflow, or pass
   `month` / `year` inputs on a manual run. Locally: `TARGET_MONTH=October node check.mjs`.
-- **Cadence:** edit the `cron:` line (UTC). e.g. daily as September nears:
-  `23 9 * * *`.
+- **Cadence:** daily by default; edit the `cron:` line (UTC) to change it —
+  e.g. weekly on Wednesdays: `23 9 * * 3`.
 - **Party size / seat preference:** wording lives in `notify.cjs`; the default
   guidance assumes a central pair in the mid-to-back rows.
 
@@ -81,7 +81,7 @@ node scripts/bfi-imax-odyssey/check.test.mjs   # parser self-tests, no network
 ## Alternative: an LLM-in-the-loop routine
 
 A richer option is a scheduled Claude "Routine" that reads the page with a
-server-side fetch tool and actually assesses seat quality each week. It needs a
+server-side fetch tool and actually assesses seat quality on every run. It needs a
 one-time tool-approval that can only be granted from an interactive Claude Code
 session (it can't be created from a non-interactive/automated run). This
 GitHub Action is the durable, self-contained equivalent.

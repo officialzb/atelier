@@ -69,7 +69,7 @@ module.exports = async ({ github, context, core }) => {
         owner,
         repo,
         issue_number: existing.number,
-        body: `${label} screenings are no longer listed on the BFI page as of ${checkedAt}. Closing — the weekly watcher will reopen if they return.`,
+        body: `${label} screenings are no longer listed on the BFI page as of ${checkedAt}. Closing — the daily watcher will reopen if they return.`,
       });
       await github.rest.issues.update({ owner, repo, issue_number: existing.number, state: "closed" });
     }
