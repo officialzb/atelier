@@ -33,12 +33,16 @@ sandboxed environments that proxy-block `bfi.org.uk`).
 
 ## ⚠️ To activate the weekly schedule: merge to `main`
 
-GitHub only fires `schedule:` triggers from the repository's **default branch**.
-While this lives on a feature branch it will **not** run weekly on its own.
+GitHub fires **both** `schedule:` triggers and the manual **Run workflow**
+button only when the workflow exists on the repository's **default branch**.
+While this lives on a feature branch it will **not** run — scheduled or manual.
 
 - **To go live:** merge this branch into `main`.
-- **To test now (any branch):** Actions tab → _BFI IMAX Odyssey ticket watch_ →
-  **Run workflow**. You can override the month/year for the run.
+- **After it's on `main`:** the weekly run is automatic, and you can also trigger
+  it on demand via Actions tab → _BFI IMAX Odyssey ticket watch_ → **Run
+  workflow** (with optional month/year overrides).
+- **Before merging**, you can still exercise the logic locally — see _Run
+  locally_ below.
 
 (GitHub also auto-disables scheduled workflows after 60 days of repo inactivity —
 not a concern for a two-month watch, but worth knowing.)
