@@ -1,0 +1,68 @@
+name: BFI IMAX Odyssey ticket watch
+
+# Weekly watcher for Christopher Nolan's "The Odyssey" (IMAX 70mm) at BFI IMAX.
+# It reads the BFI booking page and, when the target month (default September
+# 2026) becomes bookable, opens/updates a GitHub issue that @mentions and
+# assigns the repo owner (which sends you an email notification).
+#
+# IMPORTANT: GitHub only runs `schedule` triggers on the repository's DEFAULT
+# branch. This must be merged to `main` for the weekly run to fire. Until then,
+# use the "Run workflow" button (workflow_dispatch) to test it on this branch.
+
+on:
+  schedule:
+    # Weekly on Wednesday at 09:23 UTC (~10:23 UK in summer).
+    # Off the :00 mark on purpose; GitHub may delay scheduled runs under load.
+    - cron: "23 9 * * 3"
+  workflow_dispatch:
+    inputs:
+      month:
+        description: "Target month name (e.g. September)"
+        required: false
+        default: "September"
+      year:
+        description: "Target year"
+        required: false
+        default: "2026"
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: odyssey-watch
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - id: check
+        name: Check BFI IMAX for The Odyssey
+        env:
+          TARGET_MONTH: ${{ github.event.inputs.month || 'September' }}
+          TARGET_YEAR: ${{ github.event.inputs.year || '2026' }}
+        run: node scripts/bfi-imax-odyssey/check.mjs
+
+      - name: Notify via issue on change
+        if: ${{ steps.check.outputs.status != '' }}
+        uses: actions/github-script@v7
+        env:
+          STATUS: ${{ steps.check.outputs.status }}
+          TARGET_LABEL: ${{ steps.check.outputs.target_label }}
+          TOTAL: ${{ steps.check.outputs.total }}
+          AVAILABLE: ${{ steps.check.outputs.available }}
+          SOLD_OUT: ${{ steps.check.outputs.sold_out }}
+          DATES: ${{ steps.check.outputs.dates }}
+          CHECKED_AT: ${{ steps.check.outputs.checked_at }}
+          BOX_OFFICE: ${{ steps.check.outputs.box_office }}
+        with:
+          script: |
+            const notify = require(`${process.env.GITHUB_WORKSPACE}/scripts/bfi-imax-odyssey/notify.cjs`);
+            await notify({ github, context, core });

@@ -1,0 +1,79 @@
+// Fixture-based tests for the Odyssey checker's parsing logic.
+// Run: node scripts/bfi-imax-odyssey/check.test.mjs
+// Exits non-zero if any assertion fails. No network access required.
+
+import assert from "node:assert/strict";
+import { stripHtml, looksBlocked, findShowings, classify } from "./check.mjs";
+
+let passed = 0;
+const test = (name, fn) => {
+  fn();
+  passed++;
+  console.log(`  ok - ${name}`);
+};
+
+// Mirrors the real BFI markup shape: each show is a title + date/time +
+// venue + title, then either "Sold out!" or a price/Book control.
+const show = (date, time, tail) =>
+  `<div class="show"><h3>The Odyssey</h3><p>-${date} ${time}</p>` +
+  `<span>BFI IMAX</span><span>The Odyssey</span>${tail}</div>`;
+const SOLD = "<span>Sold out!</span>";
+const BOOK = "<span>£27.50</span><a>Book now</a>";
+
+test("stripHtml removes tags and decodes entities", () => {
+  assert.equal(stripHtml("<p>A&amp;B <b>C</b></p>"), "A&B C");
+});
+
+test("looksBlocked flags non-200, tiny, and challenge bodies", () => {
+  assert.equal(looksBlocked(403, "x".repeat(2000)), true);
+  assert.equal(looksBlocked(200, "too short"), true);
+  assert.equal(looksBlocked(200, "Just a moment... " + "x".repeat(2000)), true);
+  assert.equal(looksBlocked(200, "The Odyssey listing " + "x".repeat(2000)), false);
+});
+
+test("current state (July only, sold out) => not_yet for September", () => {
+  const html =
+    show("Friday 17 July 2026", "16:15", SOLD) + show("Friday 17 July 2026", "20:00", SOLD);
+  const showings = findShowings(stripHtml(html), "September", "2026");
+  assert.equal(showings.length, 0);
+  assert.equal(classify(showings, { allBlocked: false }).status, "not_yet");
+});
+
+test("September listed but all sold out => on_sale_soldout", () => {
+  const html =
+    show("Saturday 5 September 2026", "12:00", SOLD) +
+    show("Saturday 5 September 2026", "16:15", SOLD);
+  const showings = findShowings(stripHtml(html), "September", "2026");
+  assert.equal(showings.length, 2);
+  assert.equal(showings.every((s) => s.soldOut), true);
+  const v = classify(showings, { allBlocked: false });
+  assert.equal(v.status, "on_sale_soldout");
+  assert.equal(v.available, 0);
+});
+
+test("September with a bookable show => on_sale_available", () => {
+  const html =
+    show("Saturday 5 September 2026", "12:00", SOLD) +
+    show("Sunday 6 September 2026", "16:15", BOOK);
+  const showings = findShowings(stripHtml(html), "September", "2026");
+  assert.equal(showings.length, 2);
+  const v = classify(showings, { allBlocked: false });
+  assert.equal(v.status, "on_sale_available");
+  assert.equal(v.available, 1);
+  assert.equal(v.soldOut, 1);
+  assert.deepEqual(v.uniqueDates, ["5 September 2026", "6 September 2026"]);
+});
+
+test("a sold-out neighbour does not leak into a bookable show's block", () => {
+  // Bookable Sept 6 immediately followed by a sold-out Sept 7.
+  const html = show("Sunday 6 September 2026", "16:15", BOOK) + show("Monday 7 September 2026", "12:00", SOLD);
+  const showings = findShowings(stripHtml(html), "September", "2026");
+  const sixth = showings.find((s) => s.date === "6 September 2026");
+  assert.equal(sixth.soldOut, false, "Sept 6 should remain bookable");
+});
+
+test("all pages blocked with no showings => blocked", () => {
+  assert.equal(classify([], { allBlocked: true }).status, "blocked");
+});
+
+console.log(`\n${passed} tests passed.`);
