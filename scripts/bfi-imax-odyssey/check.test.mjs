@@ -3,7 +3,7 @@
 // Exits non-zero if any assertion fails. No network access required.
 
 import assert from "node:assert/strict";
-import { stripHtml, looksBlocked, findShowings, classify } from "./check.mjs";
+import { stripHtml, looksBlocked, findShowings, classify, run, PAGES } from "./check.mjs";
 
 let passed = 0;
 const test = (name, fn) => {
@@ -75,5 +75,38 @@ test("a sold-out neighbour does not leak into a bookable show's block", () => {
 test("all pages blocked with no showings => blocked", () => {
   assert.equal(classify([], { allBlocked: true }).status, "blocked");
 });
+
+// run() wires an injected fetcher through to a verdict (async).
+const asyncTests = [];
+const atest = (name, fn) => asyncTests.push([name, fn]);
+
+atest("run() with an injected fetcher returning bookable September => on_sale_available", async () => {
+  const page = show("Saturday 5 September 2026", "16:15", BOOK);
+  const fetcher = async (url) => ({ url, status: 200, body: page, blocked: false });
+  const v = await run({ fetcher });
+  assert.equal(v.status, "on_sale_available");
+});
+
+atest("run() reports blocked when every fetch is blocked", async () => {
+  const fetcher = async (url) => ({ url, status: 403, body: "", blocked: true });
+  const v = await run({ fetcher });
+  assert.equal(v.status, "blocked");
+});
+
+atest("run() fetches exactly the configured pages", async () => {
+  const seen = [];
+  const fetcher = async (url) => {
+    seen.push(url);
+    return { url, status: 200, body: "<p>nothing here " + "x".repeat(900) + "</p>", blocked: false };
+  };
+  await run({ fetcher });
+  assert.deepEqual(seen.sort(), [...PAGES].sort());
+});
+
+for (const [name, fn] of asyncTests) {
+  await fn();
+  passed++;
+  console.log(`  ok - ${name}`);
+}
 
 console.log(`\n${passed} tests passed.`);

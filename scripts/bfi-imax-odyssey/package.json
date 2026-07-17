@@ -1,0 +1,15 @@
+{
+  "name": "bfi-imax-odyssey-watch",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Isolated deps for the BFI IMAX Odyssey ticket watcher (CI headless-browser fetch). Not part of the Next.js app.",
+  "scripts": {
+    "test": "node check.test.mjs",
+    "check:http": "node check.mjs",
+    "check:browser": "node fetch-browser.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.49.0"
+  }
+}

@@ -41,14 +41,21 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
+
+      - name: Install Playwright (Chromium)
+        working-directory: scripts/bfi-imax-odyssey
+        run: |
+          npm install --no-audit --no-fund
+          npx playwright install --with-deps chromium
 
       - id: check
         name: Check BFI IMAX for The Odyssey
         env:
           TARGET_MONTH: ${{ github.event.inputs.month || 'September' }}
           TARGET_YEAR: ${{ github.event.inputs.year || '2026' }}
-        run: node scripts/bfi-imax-odyssey/check.mjs
+        # Uses headless Chromium — BFI 403s plain HTTP requests everywhere.
+        run: node scripts/bfi-imax-odyssey/fetch-browser.mjs
 
       - name: Notify via issue on change
         if: ${{ steps.check.outputs.status != '' }}

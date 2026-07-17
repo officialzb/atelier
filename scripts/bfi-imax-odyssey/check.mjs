@@ -1,25 +1,28 @@
-// BFI IMAX — "The Odyssey" ticket watcher.
+// BFI IMAX — "The Odyssey" ticket watcher (parsing + verdict core).
 //
 // Checks the BFI IMAX booking page for Christopher Nolan's "The Odyssey"
 // (IMAX 70mm) and reports whether screenings for a target month/year
 // (default: September 2026) are on sale, and how many currently appear
 // bookable vs. sold out.
 //
-// Zero dependencies — uses Node's global fetch (Node 18+). Run locally with:
-//   node scripts/bfi-imax-odyssey/check.mjs
-// In CI it also appends key=value pairs to $GITHUB_OUTPUT for the workflow.
+// The page is behind bot protection that 403s plain HTTP requests, so CI
+// fetches it with a real headless browser (see fetch-browser.mjs) and injects
+// that fetcher into run(). This file stays dependency-free; run directly with:
+//   node scripts/bfi-imax-odyssey/check.mjs        (plain fetch — will 403 on BFI)
+//   node scripts/bfi-imax-odyssey/fetch-browser.mjs (headless browser — used in CI)
 //
 // NOTE ON SCOPE: this reliably detects when the target month becomes
 // *bookable* (the hard-to-catch event) and links you straight to booking.
 // It does not judge individual seat quality — the BFI seat map lives behind
-// a JS booking flow. Once you're alerted, pick seats yourself, or use the
-// optional LLM routine described in the README for a seat-quality read.
+// a JS booking flow.
+
+import { appendFileSync } from "node:fs";
 
 const TARGET_MONTH = process.env.TARGET_MONTH || "September";
 const TARGET_YEAR = process.env.TARGET_YEAR || "2026";
 
 // The Odyssey booking pages (standard + subtitled/SDH performances).
-const PAGES = [
+export const PAGES = [
   "https://whatson.bfi.org.uk/imax/Online/default.asp?BOparam::WScontent::loadArticle::permalink=odyssey-the-film-imax-70mm-2026",
   "https://whatson.bfi.org.uk/imax/Online/default.asp?BOparam::WScontent::loadArticle::permalink=odyssey-the-film-imax-70mm-2026-sdh",
 ];
@@ -27,7 +30,7 @@ const PAGES = [
 const BOOKING_HOME = "https://whatson.bfi.org.uk/imax";
 const BOX_OFFICE = "020 7928 3232";
 
-const BROWSER_HEADERS = {
+export const BROWSER_HEADERS = {
   "User-Agent":
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 " +
     "(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
@@ -91,7 +94,7 @@ export function findShowings(text, monthName = TARGET_MONTH, year = TARGET_YEAR)
 }
 
 /** Turn raw showings into a verdict object. */
-export function classify(showings, { anyBlocked, allBlocked }) {
+export function classify(showings, { allBlocked }) {
   const total = showings.length;
   const soldOut = showings.filter((s) => s.soldOut).length;
   const available = total - soldOut;
@@ -105,10 +108,11 @@ export function classify(showings, { anyBlocked, allBlocked }) {
   } else {
     status = "not_yet";
   }
-  return { status, total, soldOut, available, uniqueDates, anyBlocked };
+  return { status, total, soldOut, available, uniqueDates };
 }
 
-async function fetchPage(url) {
+/** Default fetcher: plain HTTP. Works locally / anywhere BFI isn't bot-gating. */
+export async function fetchViaHttp(url) {
   const controller = new AbortController();
   const t = setTimeout(() => controller.abort(), 30_000);
   try {
@@ -128,23 +132,25 @@ async function fetchPage(url) {
 
 function setOutput(key, value) {
   const out = process.env.GITHUB_OUTPUT;
-  const line = `${key}=${String(value).replace(/\r?\n/g, " ")}\n`;
-  if (out) {
-    import("node:fs").then((fs) => fs.appendFileSync(out, line));
-  }
+  if (out) appendFileSync(out, `${key}=${String(value).replace(/\r?\n/g, " ")}\n`);
 }
 
-export async function run() {
-  const results = await Promise.all(PAGES.map(fetchPage));
+/**
+ * Fetch every page with `fetcher`, classify, log, and emit GitHub outputs.
+ * Returns the verdict object. `fetcher(url)` must resolve to
+ * { url, status, body, blocked }.
+ */
+export async function run({ fetcher = fetchViaHttp } = {}) {
+  const results = await Promise.all(PAGES.map((url) => fetcher(url)));
   const okPages = results.filter((r) => !r.blocked);
   const allBlocked = okPages.length === 0;
   const anyBlocked = results.some((r) => r.blocked);
 
   const showings = okPages.flatMap((r) => findShowings(stripHtml(r.body)));
-  const verdict = classify(showings, { anyBlocked, allBlocked });
+  const verdict = classify(showings, { allBlocked });
   const checkedAt = new Date().toISOString();
-
   const label = `${TARGET_MONTH} ${TARGET_YEAR}`;
+
   const lines = [
     `BFI IMAX — The Odyssey — ${label} watch`,
     `Checked: ${checkedAt}`,
@@ -172,13 +178,12 @@ export async function run() {
   return verdict;
 }
 
-// Run when executed directly (not when imported by tests).
+// Run when executed directly (not when imported by tests or fetch-browser.mjs).
 const invokedDirectly =
   process.argv[1] && import.meta.url === new URL(`file://${process.argv[1]}`).href;
 if (invokedDirectly) {
   run().catch((err) => {
     console.error("Checker failed:", err);
-    // Don't hard-fail the CI step on transient errors; report as blocked.
     setOutput("status", "blocked");
     process.exit(0);
   });
