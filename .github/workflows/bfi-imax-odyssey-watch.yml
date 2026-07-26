@@ -24,6 +24,13 @@ on:
         description: "Target year"
         required: false
         default: "2026"
+  # Re-run when the checker itself changes. Also gives a no-UI way to trigger
+  # an on-demand check: push a change to these paths on main.
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/bfi-imax-odyssey-watch.yml"
+      - "scripts/bfi-imax-odyssey/**"
 
 permissions:
   contents: read
