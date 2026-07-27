@@ -5,6 +5,7 @@
 import assert from "node:assert/strict";
 import { stripHtml, looksBlocked, findShowings, classify, run, PAGES } from "./check.mjs";
 import notify from "./notify.cjs";
+import { pickBest } from "./aggregate.mjs";
 
 let passed = 0;
 const test = (name, fn) => {
@@ -79,6 +80,22 @@ test("diffAvailability computes appeared/disappeared", () => {
   const b = notify.diffAvailability(["03 September 2026"], []);
   assert.deepEqual(b.appeared, []);
   assert.deepEqual(b.disappeared, ["03 September 2026"]);
+});
+
+test("pickBest prefers a real read over blocked, and availability over sold-out", () => {
+  const blocked = { status: "blocked" };
+  const soldout = { status: "on_sale_soldout" };
+  const avail = { status: "on_sale_available" };
+  const notyet = { status: "not_yet" };
+  assert.equal(pickBest([blocked, soldout]).status, "on_sale_soldout");
+  assert.equal(pickBest([soldout, avail, blocked]).status, "on_sale_available");
+  assert.equal(pickBest([blocked, notyet]).status, "not_yet");
+  assert.equal(pickBest([blocked, blocked]).status, "blocked");
+});
+
+test("pickBest returns null when nothing usable", () => {
+  assert.equal(pickBest([]), null);
+  assert.equal(pickBest([null, {}]), null);
 });
 
 test("a sold-out neighbour does not leak into a bookable show's block", () => {

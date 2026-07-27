@@ -27,8 +27,12 @@ timestamped observations to reveal whether returns cluster at particular times.
   `@`-mentioning the owner → email), and **comments a timestamp whenever the set
   of bookable dates changes** — 🟢 became bookable / 🔴 sold out again. Those
   comments are the drop-time dataset.
+- [`aggregate.mjs`](./aggregate.mjs) merges the parallel fetch attempts and
+  picks whichever runner got a clean read.
 - [`../../.github/workflows/bfi-imax-odyssey-watch.yml`](../../.github/workflows/bfi-imax-odyssey-watch.yml)
-  runs it **every 30 min (:07/:37 UTC)** with the Chromium download cached.
+  runs **every 30 min (:07/:37 UTC)**. The fetch runs as a **matrix of 3
+  parallel attempts on separate runners/IPs** (BFI blocks GitHub datacenter IPs
+  intermittently, whole-run), then one `notify` job aggregates and alerts.
 
 ## Figuring out drop times
 
@@ -52,12 +56,14 @@ It does **not** judge individual seat quality — the seat map is behind a JS
 booking flow. It flags bookable dates and links you straight there; aim for
 central seats in the middle-to-back rows, avoiding the front ~5 rows.
 
-## If runs report `blocked`
+## Reliability & `blocked` runs
 
-The headless browser couldn't get past BFI's bot protection that run (it's
-intermittent; the retries/warm-up reduce it). It's a warning, not a false
-"nothing on sale". If it's frequent, the reliable escalation is a server-side
-fetch API (e.g. Exa) behind an `EXA_API_KEY` secret.
+BFI blocks GitHub's datacenter IPs intermittently — a whole run's IP is either
+clean or flagged. The 3-way parallel matrix means one clean IP is enough, so a
+cycle only shows `blocked` when *all* attempts are flagged. If that's still
+frequent, the guaranteed fixes are a server-side fetch API/proxy with better
+IPs behind a repo secret, or running `npm run check:browser` on a home-IP
+machine via cron. `blocked` is always a warning, never a false "nothing on sale".
 
 ## Adjusting it
 

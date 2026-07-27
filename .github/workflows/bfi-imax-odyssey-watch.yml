@@ -1,19 +1,18 @@
 name: BFI IMAX Odyssey ticket watch
 
-# Daily watcher for Christopher Nolan's "The Odyssey" (IMAX 70mm) at BFI IMAX.
-# It reads the BFI booking page and, when the target month (default September
-# 2026) becomes bookable, opens/updates a GitHub issue that @mentions and
-# assigns the repo owner (which sends you an email notification).
+# Watcher for Christopher Nolan's "The Odyssey" (IMAX 70mm) at BFI IMAX.
+# BFI intermittently 403s GitHub's datacenter IPs (whole-run, not per-request),
+# so the fetch runs as a matrix of parallel attempts on separate runners/IPs;
+# a single downstream job aggregates whichever attempt got through and notifies.
 #
-# IMPORTANT: GitHub only runs `schedule` triggers on the repository's DEFAULT
-# branch. This must be on `main` for the scheduled run to fire (that also
-# enables the manual "Run workflow" button).
+# IMPORTANT: GitHub runs `schedule` triggers only on the DEFAULT branch, so this
+# must be on `main` to fire (that also enables the manual "Run workflow" button).
 
 on:
   schedule:
     # Every 30 minutes at :07 and :37 — off the busy :00/:30 marks that GitHub
     # deprioritises. Frequent sampling catches fast-moving returns and reveals
-    # when seats actually drop. GitHub may still delay/skip scheduled runs.
+    # when seats drop. GitHub may still delay/skip scheduled runs.
     - cron: "7,37 * * * *"
   workflow_dispatch:
     inputs:
@@ -25,8 +24,8 @@ on:
         description: "Target year"
         required: false
         default: "2026"
-  # Re-run when the checker itself changes. Also gives a no-UI way to trigger
-  # an on-demand check: push a change to these paths on main.
+  # Re-run when the checker changes; also a no-UI way to trigger an on-demand
+  # check by pushing to these paths on main.
   push:
     branches: [main]
     paths:
@@ -36,17 +35,23 @@ on:
 permissions:
   contents: read
   issues: write
+  actions: read
 
 concurrency:
   group: odyssey-watch
   cancel-in-progress: false
 
 jobs:
-  check:
+  fetch:
+    # Parallel attempts across runners → different IPs → beats intermittent
+    # datacenter-IP blocking. One clean read is enough.
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        attempt: [1, 2, 3]
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
@@ -63,27 +68,54 @@ jobs:
           npm install --no-audit --no-fund
           npx playwright install --with-deps chromium
 
-      - id: check
-        name: Check BFI IMAX for The Odyssey
+      - name: Fetch BFI (headless Chromium)
         env:
           TARGET_MONTH: ${{ github.event.inputs.month || 'September' }}
           TARGET_YEAR: ${{ github.event.inputs.year || '2026' }}
-        # Uses headless Chromium — BFI 403s plain HTTP requests everywhere.
+          RESULT_FILE: ${{ github.workspace }}/result.json
         run: node scripts/bfi-imax-odyssey/fetch-browser.mjs
 
+      - name: Upload result
+        uses: actions/upload-artifact@v4
+        with:
+          name: result-${{ matrix.attempt }}
+          path: result.json
+          retention-days: 1
+          if-no-files-found: ignore
+
+  notify:
+    needs: fetch
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Download attempts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: result-*
+          path: attempts
+
+      - id: agg
+        name: Aggregate attempts
+        run: node scripts/bfi-imax-odyssey/aggregate.mjs attempts
+
       - name: Notify via issue on change
-        if: ${{ steps.check.outputs.status != '' }}
+        if: ${{ steps.agg.outputs.status != '' }}
         uses: actions/github-script@v7
         env:
-          STATUS: ${{ steps.check.outputs.status }}
-          TARGET_LABEL: ${{ steps.check.outputs.target_label }}
-          TOTAL: ${{ steps.check.outputs.total }}
-          AVAILABLE: ${{ steps.check.outputs.available }}
-          SOLD_OUT: ${{ steps.check.outputs.sold_out }}
-          DATES: ${{ steps.check.outputs.dates }}
-          AVAILABLE_DATES: ${{ steps.check.outputs.available_dates }}
-          CHECKED_AT: ${{ steps.check.outputs.checked_at }}
-          BOX_OFFICE: ${{ steps.check.outputs.box_office }}
+          STATUS: ${{ steps.agg.outputs.status }}
+          TARGET_LABEL: ${{ steps.agg.outputs.target_label }}
+          TOTAL: ${{ steps.agg.outputs.total }}
+          AVAILABLE: ${{ steps.agg.outputs.available }}
+          SOLD_OUT: ${{ steps.agg.outputs.sold_out }}
+          DATES: ${{ steps.agg.outputs.dates }}
+          AVAILABLE_DATES: ${{ steps.agg.outputs.available_dates }}
+          CHECKED_AT: ${{ steps.agg.outputs.checked_at }}
+          BOX_OFFICE: ${{ steps.agg.outputs.box_office }}
         with:
           script: |
             const notify = require(`${process.env.GITHUB_WORKSPACE}/scripts/bfi-imax-odyssey/notify.cjs`);

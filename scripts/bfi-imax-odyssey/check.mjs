@@ -179,7 +179,7 @@ export async function run({ fetcher = fetchViaHttp } = {}) {
   setOutput("booking_home", BOOKING_HOME);
   setOutput("box_office", BOX_OFFICE);
 
-  return verdict;
+  return { ...verdict, checkedAt, label, boxOffice: BOX_OFFICE, bookingHome: BOOKING_HOME };
 }
 
 // Run when executed directly (not when imported by tests or fetch-browser.mjs).

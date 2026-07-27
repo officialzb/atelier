@@ -77,7 +77,14 @@ async function main() {
   };
 
   try {
-    await run({ fetcher });
+    const result = await run({ fetcher });
+    // In the CI matrix each attempt writes its result for the aggregator.
+    const file = process.env.RESULT_FILE;
+    if (file) {
+      const { writeFileSync } = await import("node:fs");
+      writeFileSync(file, JSON.stringify(result));
+      console.log(`Wrote result to ${file}: ${result.status}`);
+    }
   } finally {
     await context.close();
     await browser.close();
