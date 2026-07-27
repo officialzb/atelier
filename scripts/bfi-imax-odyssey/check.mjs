@@ -99,6 +99,9 @@ export function classify(showings, { allBlocked }) {
   const soldOut = showings.filter((s) => s.soldOut).length;
   const available = total - soldOut;
   const uniqueDates = [...new Set(showings.map((s) => s.date))];
+  // Dates with at least one bookable showing — the set we timestamp-track to
+  // learn when returns/new seats actually appear.
+  const availableDates = [...new Set(showings.filter((s) => !s.soldOut).map((s) => s.date))];
 
   let status;
   if (total > 0) {
@@ -108,7 +111,7 @@ export function classify(showings, { allBlocked }) {
   } else {
     status = "not_yet";
   }
-  return { status, total, soldOut, available, uniqueDates };
+  return { status, total, soldOut, available, uniqueDates, availableDates };
 }
 
 /** Default fetcher: plain HTTP. Works locally / anywhere BFI isn't bot-gating. */
@@ -171,6 +174,7 @@ export async function run({ fetcher = fetchViaHttp } = {}) {
   setOutput("available", verdict.available);
   setOutput("sold_out", verdict.soldOut);
   setOutput("dates", verdict.uniqueDates.join("; "));
+  setOutput("available_dates", verdict.availableDates.join("; "));
   setOutput("checked_at", checkedAt);
   setOutput("booking_home", BOOKING_HOME);
   setOutput("box_office", BOX_OFFICE);

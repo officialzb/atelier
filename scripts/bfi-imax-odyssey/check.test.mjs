@@ -4,6 +4,7 @@
 
 import assert from "node:assert/strict";
 import { stripHtml, looksBlocked, findShowings, classify, run, PAGES } from "./check.mjs";
+import notify from "./notify.cjs";
 
 let passed = 0;
 const test = (name, fn) => {
@@ -62,6 +63,22 @@ test("September with a bookable show => on_sale_available", () => {
   assert.equal(v.available, 1);
   assert.equal(v.soldOut, 1);
   assert.deepEqual(v.uniqueDates, ["5 September 2026", "6 September 2026"]);
+});
+
+test("classify exposes availableDates (only bookable dates)", () => {
+  const html =
+    show("Saturday 5 September 2026", "12:00", SOLD) + show("Sunday 6 September 2026", "16:15", BOOK);
+  const v = classify(findShowings(stripHtml(html), "September", "2026"), { allBlocked: false });
+  assert.deepEqual(v.availableDates, ["6 September 2026"]);
+});
+
+test("diffAvailability computes appeared/disappeared", () => {
+  const a = notify.diffAvailability(["03 September 2026"], ["03 September 2026", "10 September 2026"]);
+  assert.deepEqual(a.appeared, ["10 September 2026"]);
+  assert.deepEqual(a.disappeared, []);
+  const b = notify.diffAvailability(["03 September 2026"], []);
+  assert.deepEqual(b.appeared, []);
+  assert.deepEqual(b.disappeared, ["03 September 2026"]);
 });
 
 test("a sold-out neighbour does not leak into a bookable show's block", () => {

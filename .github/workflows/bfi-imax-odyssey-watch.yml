@@ -11,9 +11,10 @@ name: BFI IMAX Odyssey ticket watch
 
 on:
   schedule:
-    # Daily at 09:23 UTC (~10:23 UK in summer).
-    # Off the :00 mark on purpose; GitHub may delay scheduled runs under load.
-    - cron: "23 9 * * *"
+    # Every 30 minutes at :07 and :37 — off the busy :00/:30 marks that GitHub
+    # deprioritises. Frequent sampling catches fast-moving returns and reveals
+    # when seats actually drop. GitHub may still delay/skip scheduled runs.
+    - cron: "7,37 * * * *"
   workflow_dispatch:
     inputs:
       month:
@@ -50,6 +51,12 @@ jobs:
         with:
           node-version: "22"
 
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: pw-${{ runner.os }}-${{ hashFiles('scripts/bfi-imax-odyssey/package.json') }}
+
       - name: Install Playwright (Chromium)
         working-directory: scripts/bfi-imax-odyssey
         run: |
@@ -74,6 +81,7 @@ jobs:
           AVAILABLE: ${{ steps.check.outputs.available }}
           SOLD_OUT: ${{ steps.check.outputs.sold_out }}
           DATES: ${{ steps.check.outputs.dates }}
+          AVAILABLE_DATES: ${{ steps.check.outputs.available_dates }}
           CHECKED_AT: ${{ steps.check.outputs.checked_at }}
           BOX_OFFICE: ${{ steps.check.outputs.box_office }}
         with:

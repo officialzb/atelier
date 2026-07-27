@@ -1,82 +1,70 @@
 # BFI IMAX — "The Odyssey" ticket watcher
 
-A small daily watcher that checks whether **Christopher Nolan's _The Odyssey_
-(IMAX 70mm)** is bookable at **BFI IMAX Waterloo** for a target month (default
-**September 2026**), and pings you when it is.
+A watcher (runs **every ~30 min**) that checks whether **Christopher Nolan's
+_The Odyssey_ (IMAX 70mm)** has bookable seats at **BFI IMAX Waterloo** for a
+target month (default **September 2026**), pings you when it does, and logs a
+timestamped history of when seats appear/disappear.
 
-## Why this exists
+## The situation (important)
 
-Tickets for far-out dates aren't on sale yet — as of 16 July 2026 the BFI
-booking page listed only opening day (17 July), already sold out. The Odyssey
-is the first film shot entirely on IMAX 70mm and the BFI 70mm run sells out
-fast, so the goal is to **catch the moment September goes on sale** and get in
-quickly.
+The full 70mm run (through 10 Sept 2026) **sold out on the single on-sale on
+Mon 15 Jun 2026**. So there is **no daily "fresh ticket drop"** — what shows up
+now is **returns** (seats released by people who can't attend), which appear
+unpredictably and vanish fast. There's no published time for them. This watcher
+exists to (a) alert you the instant a return appears, and (b) accumulate enough
+timestamped observations to reveal whether returns cluster at particular times.
 
 ## How it works
 
-- [`fetch-browser.mjs`](./fetch-browser.mjs) loads the BFI booking pages
-  (standard + subtitled performances) in **real headless Chromium** and hands
-  the HTML to `check.mjs`. This is required: BFI's bot protection returns **403
-  to plain HTTP requests** (any User-Agent, even from CI) — only a real browser
-  gets through.
-- [`check.mjs`](./check.mjs) holds the parsing + verdict logic. It strips the
-  HTML and looks for any `"<day> September 2026"` screening, classifying as:
-  - `not_yet` — no September screenings listed yet (no notification),
-  - `on_sale_available` — September listed with bookable shows,
-  - `on_sale_soldout` — September listed but every show sold out,
-  - `blocked` — the page couldn't be read (logged as a warning, never a false "nothing on sale").
-- [`notify.cjs`](./notify.cjs) opens a single **GitHub issue** when the status
-  becomes actionable, assigning + `@`-mentioning the repo owner (that's what
-  emails you). It's idempotent: one open issue, a comment only when the status
-  actually changes, and it closes the issue if September stops being listed.
+- [`fetch-browser.mjs`](./fetch-browser.mjs) loads the BFI booking pages in
+  **real headless Chromium**. BFI 403s plain HTTP requests, and blocks even a
+  browser intermittently, so it warms up on the IMAX homepage first (for any
+  clearance cookie), masks the automation fingerprint, and **retries** each page.
+- [`check.mjs`](./check.mjs) parses the HTML for `"<day> September 2026"`
+  screenings and classifies: `not_yet`, `on_sale_available`, `on_sale_soldout`,
+  or `blocked` (couldn't read — logged as a warning, never a false negative).
+- [`notify.cjs`](./notify.cjs) keeps a single **GitHub issue** (assigning +
+  `@`-mentioning the owner → email), and **comments a timestamp whenever the set
+  of bookable dates changes** — 🟢 became bookable / 🔴 sold out again. Those
+  comments are the drop-time dataset.
 - [`../../.github/workflows/bfi-imax-odyssey-watch.yml`](../../.github/workflows/bfi-imax-odyssey-watch.yml)
-  runs it **daily (09:23 UTC)** on GitHub-hosted runners, installing Chromium at
-  the start of each run.
+  runs it **every 30 min (:07/:37 UTC)** with the Chromium download cached.
 
-## ⚠️ To activate the daily schedule: merge to `main`
+## Figuring out drop times
 
-GitHub fires **both** `schedule:` triggers and the manual **Run workflow**
-button only when the workflow exists on the repository's **default branch**.
+Because tickets sold out, timing is about **returns**, which BFI doesn't
+schedule publicly. The 🟢/🔴 comments on the tracking issue build a UTC
+timeline; after a week or two, sort the 🟢 timestamps to see if returns cluster
+(e.g. a staff-processing hour, or when 48-hour holds expire). If a pattern
+emerges, be ready then — but returns can also appear any time, so instant alerts
++ a box-office call (020 7928 3232) remain the surest way to grab one.
 
-- **To go live:** merge this into `main`.
-- **After it's on `main`:** the daily run is automatic, and you can also trigger
-  it on demand via Actions tab → _BFI IMAX Odyssey ticket watch_ → **Run
-  workflow** (with optional month/year overrides).
+## ⚠️ To activate the schedule: merge to `main`
 
-(GitHub also auto-disables scheduled workflows after 60 days of repo inactivity —
-not a concern for a two-month watch, but worth knowing.)
-
-## Notifications
-
-You get an email when the tracking issue is opened/updated (via the assignment +
-`@mention`), provided your GitHub notification settings email you for those.
-Every run also writes its result to the workflow **run summary** in the Actions
-tab, so you can see it worked even on quiet days.
+GitHub runs `schedule:` triggers (and the manual **Run workflow** button) only
+from the repository's **default branch**. Merge this into `main` to go live;
+pushing changes under `scripts/bfi-imax-odyssey/**` to `main` also triggers a
+run. (GitHub auto-disables schedules after 60 days of repo inactivity.)
 
 ## What it does *not* do
 
-It does **not** judge individual seat quality — the BFI seat map sits behind a
-JavaScript booking flow. It tells you September is bookable and links you
-straight there; pick central seats in the **middle-to-back rows** (the IMAX
-sweet spot), avoiding the front ~5 rows. For an automated seat-quality read you'd
-need an LLM-in-the-loop routine (see below).
+It does **not** judge individual seat quality — the seat map is behind a JS
+booking flow. It flags bookable dates and links you straight there; aim for
+central seats in the middle-to-back rows, avoiding the front ~5 rows.
 
-## If a run reports `blocked`
+## If runs report `blocked`
 
-The headless browser couldn't read the page (BFI hard-blocked it, or the load
-timed out). It's surfaced as a warning, not a false "nothing on sale". If it
-recurs, the reliable escalation is a server-side fetch API (e.g. Exa) behind an
-`EXA_API_KEY` repo secret — that class of fetch read the page reliably during
-development. Ask and it can be wired into `fetch-browser.mjs` as a first choice.
+The headless browser couldn't get past BFI's bot protection that run (it's
+intermittent; the retries/warm-up reduce it). It's a warning, not a false
+"nothing on sale". If it's frequent, the reliable escalation is a server-side
+fetch API (e.g. Exa) behind an `EXA_API_KEY` secret.
 
 ## Adjusting it
 
-- **Month / year:** pass `month` / `year` inputs on a manual run, or change the
-  defaults in the workflow. Locally: `TARGET_MONTH=October npm run check:browser`.
-- **Cadence:** daily by default; edit the `cron:` line (UTC) to change it —
-  e.g. weekly on Wednesdays: `23 9 * * 3`.
-- **Party size / seat preference:** wording lives in `notify.cjs`; the default
-  guidance assumes a central pair in the mid-to-back rows.
+- **Month / year:** `month` / `year` inputs on a manual run, or the defaults in
+  the workflow. Locally: `TARGET_MONTH=October npm run check:browser`.
+- **Cadence:** every 30 min by default (`7,37 * * * *`); edit the `cron:` line.
+- **Party size / seat preference:** wording lives in `notify.cjs`.
 
 ## Run locally
 
@@ -85,13 +73,12 @@ cd scripts/bfi-imax-odyssey
 npm install && npx playwright install chromium   # one-time, for the browser fetch
 npm run check:browser   # live check via headless Chromium (what CI runs)
 npm run check:http      # plain-fetch check (will 403 on BFI's bot protection)
-npm test                # parser self-tests, no network
+npm test                # parser + diff self-tests, no network
 ```
 
 ## Alternative: an LLM-in-the-loop routine
 
 A richer option is a scheduled Claude "Routine" that reads the page with a
-server-side fetch tool and actually assesses seat quality on every run. It needs
-a one-time tool-approval that can only be granted from an interactive Claude Code
-session (it can't be created from a non-interactive/automated run). This
-GitHub Action is the durable, self-contained equivalent.
+server-side fetch tool and assesses seat quality on every run. It needs a
+one-time tool-approval only grantable from an interactive Claude Code session.
+This GitHub Action is the durable, self-contained equivalent.
