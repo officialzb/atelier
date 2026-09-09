@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Confidential third-party reference files: keep local, never commit
+docs/brand/refs/*.pdf
+docs/brand/refs/*.png
