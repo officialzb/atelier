@@ -139,7 +139,8 @@
     "lead": {
       "name": "Yolo Badger",
       "role": "Team lead",
-      "does": "Ranks where to play, decides what runs next, hands out the work, reports back in plain English. The in-app voice of the product and the brand mascot."
+      "does": "Ranks where to play, decides what runs next, hands out the work, reports back in plain English. The in-app voice of the product and the brand mascot.",
+      "mascot": "Yolo Badger is the brand mascot: the face of Yolodex in-app, on social, in the deck, at events, and the favicon. When Yolodex speaks in first person, it is the badger speaking."
     },
     "agents": [
       {

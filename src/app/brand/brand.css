@@ -1,0 +1,116 @@
+/* Scoped styles for the /brand living style guide.
+   Colour and type come from CSS variables set by BrandGuide (palette + pairing switchers). */
+
+.brand {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.brand ::selection {
+  background: var(--signal);
+  color: var(--signal-text);
+}
+
+.t-display {
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  line-height: 1;
+}
+.t-display-xl {
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(3rem, 8vw, 7rem);
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+}
+.t-h2 {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.75rem;
+  line-height: 1.15;
+  font-weight: 400;
+}
+.t-body {
+  font-family: var(--font-body), system-ui, sans-serif;
+}
+.t-mono {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+.t-mono-lc {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+}
+
+.bg-paper { background: var(--paper); }
+.bg-surface { background: var(--surface); }
+.bg-ink { background: var(--ink); }
+.bg-signal { background: var(--signal); color: var(--signal-text); }
+.text-ink { color: var(--ink); }
+.text-paper { color: var(--paper); }
+.text-muted { color: var(--muted); }
+.border-rule { border-color: var(--rule); }
+.border-ink { border-color: var(--ink); }
+
+.rule { border-top: 1px solid var(--rule); }
+.rule-ink { border-top: 1px solid var(--ink); }
+
+/* Highlighter underline swipe used on the wordmark and key phrases */
+.swipe {
+  background-image: linear-gradient(var(--signal), var(--signal));
+  background-repeat: no-repeat;
+  background-size: 100% 0.35em;
+  background-position: 0 88%;
+}
+
+.tag {
+  display: inline-block;
+  padding: 0.15em 0.5em;
+  background: var(--signal);
+  color: var(--signal-text);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+
+.chip {
+  border: 1px solid var(--rule);
+  padding: 0.35rem 0.75rem;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  cursor: pointer;
+  background: transparent;
+  color: var(--ink);
+}
+.chip[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+.chip:focus-visible {
+  outline: 2px solid var(--signal);
+  outline-offset: 2px;
+}
+
+.callout-line {
+  stroke: var(--ink);
+  stroke-width: 1;
+  fill: none;
+}
+.callout-dot {
+  fill: var(--signal);
+  stroke: var(--ink);
+  stroke-width: 1;
+}

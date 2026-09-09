@@ -106,6 +106,8 @@ Yolodex is a team, not a chatbot. Every agent maps to a real job on an in-house 
 | Copywriter | Writes the hooks, scripts and on-screen text for every brief. |
 | Experimentation Lead | Designs the sprint test plan and closes the loop when the ads go live. |
 
+**The mascot.** Yolo Badger is the brand mascot as well as the team lead: the face of Yolodex in-app, on social, in the deck, at events, and the favicon. When Yolodex speaks in first person, it is the badger speaking. Treat the character as a colleague with a job, not a decoration.
+
 **The graphic.** An org chart drawn like a newspaper masthead: Yolo Badger on top, seven bylines beneath, one line each. Used on the homepage, the deck and `/brand`.
 
 ---
