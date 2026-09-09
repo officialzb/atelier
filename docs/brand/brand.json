@@ -1,0 +1,373 @@
+{
+  "meta": {
+    "brand": "Yolodex",
+    "version": "0.1.0",
+    "date": "2026-09-09",
+    "status": "draft for review",
+    "owner": "Zaeem Bhanji",
+    "process": "Mood board → brand blueprint → category/naming/specifics → design iterations (the Bou sequence Stephen Byrne described)",
+    "sources": [
+      "yolodex.ai homepage copy (Sep 2026)",
+      "Granola: Zaeem / Rob Snyder advisory call, 8 Sep 2026",
+      "Slack #all-yolodex, #competitors, #strategy (Aug–Sep 2026)",
+      "Slack DM with Stephen Byrne (Furniture Connect), 3 Sep 2026",
+      "Brand interview with Zaeem, 9 Sep 2026 (see interview.md)"
+    ]
+  },
+  "blueprint": {
+    "purpose": "Make sure no growth team is ever bottlenecked on knowing what ads to run next.",
+    "category": "AI creative strategy team",
+    "explainer": "An AI agent for creative briefs that learns from your ad results.",
+    "positioning_statement": "For heads of growth at DTC brands spending $50k to $1M+ a month on Meta, who are bottlenecked on knowing what ads to run next, Yolodex is the AI creative strategy team that finds the winning angles and builds the shoot-ready briefs, then learns from every ad result. Unlike a generic-AI stack, an agency, or another strategist hire, Yolodex is purpose-built for creative strategy and closes the loop from brief to live ad to read-back.",
+    "promise": {
+      "headline": "Creative is the new targeting.",
+      "subline": "We build the creative briefs that win.",
+      "rationale": "Meta's Andromeda-era ranking makes creative the targeting. The brand that finds better ideas faster grows faster. The bottleneck is no longer production, it is knowing what to run."
+    },
+    "enemy": {
+      "smaller_brands": "Guessing with taste. A strategist (or founder) with opinions and no experiment.",
+      "bigger_brands": "The generic-AI stack (Claude/ChatGPT + Motion/Foreplay). Rob Snyder's line: the nerdiest PhD who follows instructions and whose output is garbage every time, because it has no creative intuition and never learns from results."
+    },
+    "audience": {
+      "primary_buyer": "Head of Growth / Performance at a DTC brand",
+      "buyer_cares_about": [
+        "scaling spend without scaling headcount",
+        "CAC / nCPA and win rate",
+        "testing velocity",
+        "never running out of winners",
+        "not being bottlenecked on ideas",
+        "less time briefing"
+      ],
+      "daily_users": [
+        "creative strategists",
+        "creative leads / senior creatives",
+        "agency strategists serving several brands"
+      ],
+      "spend_band": "$50k/month Meta to $1M+ briefed spend",
+      "tried_before": [
+        "Claude/ChatGPT + Motion/Foreplay",
+        "an agency or freelance strategist",
+        "hiring a creative strategist who still can't keep up"
+      ]
+    },
+    "proof_style": "Show the machine. Explain the models, the loop, and the evidence behind every brief. Transparency is the trust signal, backed by named-brand numbers.",
+    "hero_story": {
+      "brand": "Peachies",
+      "setup": "Hit a creative wall. Couldn't scale briefs even with AI.",
+      "ideal_quote": "We 10x'd our briefing output without increasing the workload on our creative strategists, and improved our win rate. Yolodex briefs now account for 90% of our winning ads."
+    },
+    "supporting_proof": [
+      {
+        "brand": "Fourfive",
+        "stat": "15 briefs in the time it used to take to make 2. A Yolodex-briefed static is their current top-spend ad."
+      },
+      {
+        "brand": "Grüns",
+        "stat": "~$1M of briefed spend. Roughly 40% of winning ad concepts originated by Yolodex."
+      },
+      {
+        "brand": "Surreal",
+        "stat": "Cohort nCPA £35 against a £35 target, bang on for the first time."
+      }
+    ],
+    "ambition": "Category creator, anti-SaaS. Look and sound nothing like the AI-creative-tool pack."
+  },
+  "personality": {
+    "archetype": "The Scientist",
+    "traits": [
+      "rigorous",
+      "curious",
+      "bullish",
+      "plain-spoken",
+      "transparent"
+    ],
+    "voice": {
+      "register": "British, plain, very confident. Not understated: Yolodex states what it does and what the numbers are, and does not hedge.",
+      "we_are": [
+        "evidence-led",
+        "plain",
+        "confident",
+        "specific"
+      ],
+      "we_are_not": [
+        "opinionated without proof",
+        "clever for its own sake",
+        "hype-y",
+        "vague"
+      ],
+      "rules": [
+        "Lead with the claim, then the evidence. Never the other way round.",
+        "Every claim carries a number, a name, or a mechanism.",
+        "Short sentences. One idea each.",
+        "No exclamation marks in marketing copy. Confidence comes from specifics, not punctuation.",
+        "British spelling (optimise, colour, programme).",
+        "Contractions are fine. First person plural (we), second person (you).",
+        "Name real brands and real people wherever we have permission.",
+        "Explain the machine in plain words. If a reader can't picture how it works, rewrite."
+      ],
+      "banned_words": [
+        "unlock",
+        "supercharge",
+        "revolutionise",
+        "game-changing",
+        "seamless",
+        "leverage",
+        "AI-powered (as an adjective)",
+        "cutting-edge",
+        "next-level",
+        "10x (as a verb in copy; fine as a stat)",
+        "✨"
+      ],
+      "preferred_words": [
+        "briefs",
+        "winners",
+        "winning ads",
+        "angles",
+        "personas",
+        "evidence",
+        "the loop",
+        "sprint",
+        "shoot-ready",
+        "win rate",
+        "read-back",
+        "what to run next"
+      ]
+    }
+  },
+  "team": {
+    "concept": "Yolodex is an AI creative strategy team. Each agent maps to a real job on an in-house creative strategy team so a head of growth instantly understands what it replaces or multiplies.",
+    "lead": {
+      "name": "Yolo Badger",
+      "role": "Team lead",
+      "does": "Ranks where to play, decides what runs next, hands out the work, reports back in plain English. The in-app voice of the product and the brand mascot."
+    },
+    "agents": [
+      {
+        "title": "Creative Analyst",
+        "internal_draft": "creative tagger",
+        "does": "Takes every ad apart frame by frame and tags hook, format, pacing, talent, music, claim."
+      },
+      {
+        "title": "Performance Analyst",
+        "internal_draft": "ad performance analyzer",
+        "does": "Reads Meta results and isolates which variables actually drove the win."
+      },
+      {
+        "title": "Insights Researcher",
+        "internal_draft": "customer voice researcher",
+        "does": "Mines reviews, Reddit, ad comments and surveys for the language customers actually use."
+      },
+      {
+        "title": "Creative Researcher",
+        "internal_draft": "inspo gatherer",
+        "does": "Scouts competitor and category ads and builds the reference board for each brief."
+      },
+      {
+        "title": "Creative Strategist",
+        "internal_draft": "brief builder",
+        "does": "Turns persona × angle × evidence into a shoot-ready brief."
+      },
+      {
+        "title": "Copywriter",
+        "internal_draft": "script writer",
+        "does": "Writes the hooks, scripts and on-screen text for every brief."
+      },
+      {
+        "title": "Experimentation Lead",
+        "internal_draft": "experiment runner",
+        "does": "Designs the sprint test plan and closes the loop when the ads go live."
+      }
+    ],
+    "graphic": "An org chart drawn like a newspaper masthead: Yolo Badger on top, seven bylines beneath, each with a one-line job description. Used on the homepage, the deck and the /brand page."
+  },
+  "naming": {
+    "brand_name": "Yolodex",
+    "usage": [
+      "Always 'Yolodex', never 'the Yolodex' or 'YOLODEX' in running text.",
+      "Wordmark is lowercase 'yolodex'.",
+      "Say 'your AI creative strategy team' in the first sentence of any new context, then just 'Yolodex'."
+    ],
+    "product_nouns": {
+      "keep": [
+        "briefs",
+        "personas",
+        "angles",
+        "sprints",
+        "patterns",
+        "the loop"
+      ],
+      "retire": [
+        "Creative Scientist™ (as the category label; may survive as an internal nickname only)",
+        "persona brain (internal only)",
+        "opportunity matrix (rename to 'where to play' in customer-facing copy)"
+      ]
+    },
+    "agents": "Capitalised job titles: Creative Analyst, Performance Analyst, Insights Researcher, Creative Researcher, Creative Strategist, Copywriter, Experimentation Lead. Team lead: Yolo Badger.",
+    "taglines_shortlist": [
+      "Creative is the new targeting. We build the creative briefs that win.",
+      "Know what to run next.",
+      "Never be bottlenecked on what ads to run.",
+      "10x the briefs. Same team. Higher win rate.",
+      "Your AI creative strategy team."
+    ]
+  },
+  "visual": {
+    "line": "Editorial, pushed hard away from the competitor set. Paper ground, ink type, one signal colour, real ads with the machine's markup on them. The competitor set is dark-mode SaaS with purple/blue/green gradients; Yolodex looks like the research desk of a serious publication.",
+    "signature_device": {
+      "name": "Annotated ads",
+      "description": "Real customer ads with Yolodex's markup over them: tags, hairline callouts, variable labels and evidence notes in mono type and the signal colour. 'Show the machine' made visual. No competitor shows their working on the ad itself."
+    },
+    "logo": {
+      "direction": "Two-part system. (1) The mark: Yolo Badger's head, front-on, round glasses, cream face with charcoal stripes. This is the favicon, app icon and Slack icon from day one. (2) The wordmark: lowercase 'yolodex' in the body grotesk, tight tracking. Lock-up is mark left, wordmark right. The wordmark can stand alone on long-form pages; the mark stands alone at small sizes.",
+      "badger": {
+        "status": "Existing character. Chubby, upright, round wire glasses, cream face and belly, charcoal coat with a cream stripe over the head, pink nose, thick eyebrows. Warm and a bit bookish. The glasses carry the Scientist archetype.",
+        "renditions": [
+          "Full character (colour, soft cartoon line): in-app moments, empty states, onboarding, the team masthead, social.",
+          "Head mark (simplified, 2-colour: ink + paper, optional signal-colour circle behind): favicon 16/32/48px, app icon, Slack, OG corner.",
+          "Line version (single-weight ink outline, no fill): editorial pages, print, stamps and footers."
+        ],
+        "rules": [
+          "Never stretch, recolour or add gradients.",
+          "Keep the glasses in every rendition; they are the recognition feature at small sizes.",
+          "The character is the team lead, so it can speak in first person in-app. It never appears in customer case-study imagery."
+        ]
+      }
+    },
+    "avoid": [
+      "gradients",
+      "blobs",
+      "sparkles / stars",
+      "purple",
+      "dark-mode-by-default",
+      "stock photos of people at laptops",
+      "3D renders",
+      "glassmorphism",
+      "rounded pill everything"
+    ],
+    "palettes": [
+      {
+        "id": "marker",
+        "name": "Marker yellow",
+        "recommended": true,
+        "paper": "#F7F4EC",
+        "ink": "#111111",
+        "signal": "#FFE600",
+        "signal_text_on": "#111111",
+        "muted": "#6B6760",
+        "rule": "#D9D4C7",
+        "surface": "#FFFFFF",
+        "notes": "Highlighter on paper. 'Marked as winner.' Bullish and optimistic. Nobody in AI creative tooling uses it. Yellow is a highlight colour only: never set text in it, set text on it."
+      },
+      {
+        "id": "salmon",
+        "name": "Salmon paper",
+        "recommended": false,
+        "paper": "#F5DCC8",
+        "ink": "#1A1A1A",
+        "signal": "#1A1A1A",
+        "signal_text_on": "#F5DCC8",
+        "muted": "#6E5A4E",
+        "rule": "#D9B9A3",
+        "surface": "#FBEBDD",
+        "notes": "The ground is the colour, the accent is ink. Financial Times move. Instantly recognisable, reads as serious business press. Rare in SaaS."
+      },
+      {
+        "id": "oxblood",
+        "name": "Oxblood",
+        "recommended": false,
+        "paper": "#F5F1E8",
+        "ink": "#141414",
+        "signal": "#7A1F2B",
+        "signal_text_on": "#FFFFFF",
+        "muted": "#6B6660",
+        "rule": "#D8D2C4",
+        "surface": "#FFFFFF",
+        "notes": "Grown-up, expensive, editorial. Warm rather than techy. Risk: old-money rather than bullish."
+      },
+      {
+        "id": "cobalt",
+        "name": "Cobalt",
+        "recommended": false,
+        "paper": "#F4F2EB",
+        "ink": "#101010",
+        "signal": "#0033CC",
+        "signal_text_on": "#FFFFFF",
+        "muted": "#66645E",
+        "rule": "#D7D3C8",
+        "surface": "#FFFFFF",
+        "notes": "Scientific and punchy on cream paper. Klein-blue energy. Risk: blue is the B2B default, though this shade on paper is not."
+      }
+    ],
+    "type_pairings": [
+      {
+        "id": "instrument",
+        "name": "Instrument",
+        "recommended": true,
+        "display": "Instrument Serif",
+        "body": "Inter Tight",
+        "mono": "JetBrains Mono",
+        "notes": "Sharp editorial serif for display, tight grotesk for UI and body, mono for annotations and data. Modern, confident, not delicate."
+      },
+      {
+        "id": "fraunces",
+        "name": "Fraunces",
+        "recommended": false,
+        "display": "Fraunces",
+        "body": "Inter",
+        "mono": "IBM Plex Mono",
+        "notes": "Characterful soft serif with optical sizes. Warmer, more personality, slightly less serious."
+      },
+      {
+        "id": "newsreader",
+        "name": "Newsreader",
+        "recommended": false,
+        "display": "Newsreader",
+        "body": "Instrument Sans",
+        "mono": "Space Mono",
+        "notes": "Newspaper-derived serif. The most 'press' feeling. Pairs with masthead layouts."
+      }
+    ],
+    "type_scale": {
+      "display_xl": "clamp(3rem, 8vw, 7rem) / 0.95 / -0.02em",
+      "display": "clamp(2rem, 4.5vw, 3.5rem) / 1.0 / -0.015em",
+      "h2": "1.75rem / 1.15",
+      "h3": "1.25rem / 1.3",
+      "body": "1.0625rem / 1.5",
+      "small": "0.875rem / 1.45",
+      "mono_caption": "0.75rem / 1.4 / 0.02em uppercase"
+    },
+    "layout": [
+      "Generous margins, hairline rules, a real column grid.",
+      "Big serif display, small mono captions with the source under every number.",
+      "Numbers are set in the display serif. Sources in mono.",
+      "Light by default. A dark 'machine' section is allowed for product screenshots and diagrams only.",
+      "Yellow (or the chosen signal) is used like a highlighter: underline swipes, tags, one hero block. Never more than ~10% of any composition."
+    ],
+    "imagery": [
+      "Real customer ads, always annotated. Never a naked screenshot.",
+      "Real product and packaging photography from customers, with permission.",
+      "Diagrams: single-weight line drawings, ink on paper, mono labels.",
+      "No stock photography of any kind.",
+      "Illustration: Yolo Badger (see logo.badger for the three renditions) and single-weight technical diagrams. Nothing else."
+    ]
+  },
+  "assets": {
+    "phase_1": [
+      "Yolo Badger head mark (SVG: full colour, ink-on-paper, paper-on-ink) at favicon/app-icon sizes",
+      "Wordmark (SVG, ink and paper versions) and mark + wordmark lock-up",
+      "Homepage hero (annotated-ad composition + headline)",
+      "Team masthead graphic (Yolo Badger + 7 agents)",
+      "LinkedIn banner 1584×396",
+      "LinkedIn post template (annotated ad + one stat)",
+      "Deck cover and section divider",
+      "OG image 1200×630"
+    ],
+    "phase_2": [
+      "Yolo Badger character sheet (poses, expressions, line version)",
+      "Icon set (single-weight line)",
+      "Email signature",
+      "Case-study one-pager template",
+      "Sales deck full template"
+    ]
+  }
+}

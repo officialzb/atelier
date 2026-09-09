@@ -1,0 +1,69 @@
+{
+  "style_prefix": "Editorial brand design for Yolodex, an AI creative strategy team for DTC growth teams. Off-white paper background (#F7F4EC), near-black ink (#111111), a single marker-yellow signal colour (#FFE600) used sparingly like a highlighter. Serif display type, tight grotesk body, monospace annotations. Hairline rules, generous margins, a real column grid. Flat, printed, no gradients, no glow, no 3D, no sparkles, no purple, no stock-photo people. Looks like the research desk of a serious business newspaper, not a SaaS website.",
+  "negative": "gradient, glow, neon, purple, blob, sparkles, 3D render, glassmorphism, stock photo, people at laptops, dark mode, cluttered, low contrast, blurry text",
+  "images": [
+    {
+      "id": "mood-marker",
+      "file": "mood-marker.png",
+      "aspect": "1:1",
+      "prompt": "Mood board tile. A collage of printed editorial fragments on paper: a torn newspaper column, a highlighter-yellow swipe across one headline, a monospace data table with tiny footnotes, a Meta ad screenshot with hairline callout lines and small mono labels pointing at the hook and the on-screen text, a single yellow rectangular tag reading WINNER. Ink and paper with one yellow accent."
+    },
+    {
+      "id": "mood-salmon",
+      "file": "mood-salmon.png",
+      "aspect": "1:1",
+      "prompt": "Mood board tile, alternative palette. The same editorial collage but the paper itself is salmon pink (#F5DCC8), all type and rules in ink black, no yellow. Financial-newspaper feeling. Torn column, mono data table, annotated ad screenshot with hairline callouts, a black tag reading WINNER in paper-coloured text."
+    },
+    {
+      "id": "mood-oxblood",
+      "file": "mood-oxblood.png",
+      "aspect": "1:1",
+      "prompt": "Mood board tile, alternative palette. Editorial collage on cream paper (#F5F1E8) with ink type and a deep oxblood red (#7A1F2B) as the only accent: one oxblood underline, one oxblood tag reading WINNER in white text, mono footnotes, an annotated ad screenshot with hairline callouts."
+    },
+    {
+      "id": "mood-cobalt",
+      "file": "mood-cobalt.png",
+      "aspect": "1:1",
+      "prompt": "Mood board tile, alternative palette. Editorial collage on cream paper (#F4F2EB) with ink type and a single cobalt blue (#0033CC) accent: one cobalt underline, one cobalt tag reading WINNER in white text, mono footnotes, an annotated ad screenshot with hairline callouts. Scientific, Klein-blue energy."
+    },
+    {
+      "id": "hero-annotated-ad",
+      "file": "hero-annotated-ad.png",
+      "aspect": "16:9",
+      "prompt": "Homepage hero image. A single vertical Meta video-ad still (a young woman holding a supplement sachet in a kitchen, natural light, real-looking, not stock) placed on paper, surrounded by Yolodex's markup: thin ink callout lines to small monospace labels such as HOOK 0:00–0:02, FORMAT: UGC TESTIMONIAL, CLAIM: SLEEP, TALENT: FOUNDER, and one yellow tag reading WINNER · 90% OF WINNING ADS. Plenty of empty paper on the left for a headline. Flat, printed, precise."
+    },
+    {
+      "id": "team-masthead",
+      "file": "team-masthead.png",
+      "aspect": "16:9",
+      "prompt": "A newspaper-style masthead org chart on paper. At the top, the reference badger character (chubby, upright, round wire glasses, cream face, charcoal coat) drawn small in flat ink-and-paper with a yellow highlighter swipe behind it labelled YOLO BADGER · TEAM LEAD in serif capitals. Below, a hairline rule, then seven bylines in a row in monospace capitals: CREATIVE ANALYST, PERFORMANCE ANALYST, INSIGHTS RESEARCHER, CREATIVE RESEARCHER, CREATIVE STRATEGIST, COPYWRITER, EXPERIMENTATION LEAD, each with a one-line description beneath in small grotesk. Ink on paper, one yellow accent.",
+      "reference": "public/brand/yolo-badger-reference.png"
+    },
+    {
+      "id": "linkedin-banner",
+      "file": "linkedin-banner.png",
+      "aspect": "4:1",
+      "prompt": "Wide LinkedIn banner, 4:1. Paper background. Left: the lowercase wordmark 'yolodex' in a tight grotesk with a marker-yellow underline swipe. Centre-right: three small annotated ad stills with hairline callouts and mono labels. Far right in serif: 'Creative is the new targeting.' Flat editorial layout, lots of air."
+    },
+    {
+      "id": "og-image",
+      "file": "og-image.png",
+      "aspect": "1.91:1",
+      "prompt": "Open Graph image, 1200 by 630. Paper background. Large serif headline 'Creative is the new targeting.' top left, smaller grotesk subline 'We build the creative briefs that win.' below it, one small annotated ad still bottom right with a yellow WINNER tag, lowercase 'yolodex' wordmark bottom left. Flat, printed, precise."
+    },
+    {
+      "id": "badger-mark",
+      "file": "badger-mark.png",
+      "aspect": "1:1",
+      "prompt": "Brand mark study derived from the reference character (a chubby upright badger with round wire glasses, cream face, charcoal coat, cream head stripe, pink nose). Redraw only the HEAD, front-on, simplified to two flat colours (ink #111111 and paper #F7F4EC) so it reads at 16px: keep the round glasses, the cream face stripe, the small ears and the pink nose reduced to a single ink dot. Centre it on paper with a marker-yellow circle (#FFE600) behind it. No gradients, no shading, no text.",
+      "reference": "public/brand/yolo-badger-reference.png"
+    },
+    {
+      "id": "favicon-set",
+      "file": "favicon-set.png",
+      "aspect": "1:1",
+      "reference": "public/brand/yolo-badger-reference.png",
+      "prompt": "Favicon study sheet on paper. The reference badger's head, simplified, shown four times in a row at decreasing sizes (256px, 64px, 32px, 16px) to test legibility. Flat two-colour ink and paper, round glasses kept, marker-yellow circle behind each. Nothing else in the frame."
+    }
+  ]
+}
