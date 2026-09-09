@@ -600,7 +600,7 @@ function Device({ heroImage }: { heroImage: string | null }) {
 /** A CSS/SVG mock of the annotated-ad device so the page shows it even before images are generated. */
 function AnnotatedAdDemo({ compact = false }: { compact?: boolean }) {
   const labels = [
-    "HOOK 0:00–0:02 · “nearly sent them back”",
+    "HOOK 0:00–0:02 · “nearly sent it back”",
     "FORMAT · UGC testimonial · 9:16",
     "CLAIM · sleep · low sugar",
     "TALENT · founder",
@@ -621,15 +621,15 @@ function AnnotatedAdDemo({ compact = false }: { compact?: boolean }) {
             <g key={text}>
               <line x1="32" y1={y} x2="40" y2={y} className="callout-line" />
               <circle cx="32" cy={y} r="1" className="callout-dot" />
-              <text x="42" y={y + 0.9} fontSize={compact ? 2.4 : 2.2} fill="var(--ink)" fontFamily="var(--font-mono), monospace" letterSpacing="0.08">
+              <text x="42" y={y + 0.9} fontSize={compact ? 2.2 : 2} fill="var(--ink)" fontFamily="var(--font-mono), monospace" letterSpacing="0.05">
                 {text}
               </text>
             </g>
           );
         })}
         {/* winner tag */}
-        <rect x="40" y="44" width="38" height="6" fill="var(--signal)" />
-        <text x="59" y="48.2" textAnchor="middle" fontSize="2.4" fill="var(--signal-text)" fontFamily="var(--font-mono), monospace" letterSpacing="0.2">
+        <rect x="40" y="44" width="52" height="6" fill="var(--signal)" />
+        <text x="66" y="48.2" textAnchor="middle" fontSize="2.3" fill="var(--signal-text)" fontFamily="var(--font-mono), monospace" letterSpacing="0.1">
           WINNER · 90% OF WINNING ADS
         </text>
       </svg>
