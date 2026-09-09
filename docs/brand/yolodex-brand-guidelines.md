@@ -1,6 +1,6 @@
 # Yolodex brand guidelines
 
-Draft v0.1, 9 Sep 2026. Source of truth for values: `docs/brand/brand.json`. Living version: the `/brand` page in this repo.
+Draft v0.2, 9 Sep 2026. Source of truth for values: `docs/brand/brand.json`. Living version: the `/brand` page in this repo.
 
 ---
 
@@ -21,6 +21,8 @@ Draft v0.1, 9 Sep 2026. Source of truth for values: `docs/brand/brand.json`. Liv
 ---
 
 ## 2. Personality and voice
+
+The full verbal identity (brand story, three tone-of-voice keywords with Yes/No/Reasoning tables, house styles, annotated tagline and category name) is in `docs/brand/yolodex-verbal-identity.md`. This section is the summary.
 
 **Archetype: the Scientist.** Rigorous, curious, bullish, plain-spoken, transparent. Yolodex runs the experiment rather than guessing with taste, and it says so without hedging.
 
@@ -240,10 +242,22 @@ Image prompts for the first batch live in `docs/brand/visual-prompts.json` and a
 
 ## 7. Process and next steps
 
-This follows the sequence Bou used with Furniture Connect: mood boards to pick a visual line, a one-slide blueprint, then category, naming and specifics, then design iterations.
+This mirrors the sequence Bou ran with Furniture Connect. Yolodex's status against each step:
+
+| Step | Bou deliverable | Yolodex status |
+|---|---|---|
+| Background research | Interviews, market read | Done: site, Rob Snyder call, Slack, competitor set, founder interview |
+| Brand blueprint | One slide | Done: `yolodex-brand-blueprint.md` |
+| Verbal identity | Brand story, TOV keywords + in-action tables, house styles, tagline, category name | Done: `yolodex-verbal-identity.md` |
+| Visual moodboards | 3–4 directions to pick a visual line | In progress: 4 palettes + 3 type pairings on `/brand`; mood tiles via `generate-visuals.ts` |
+| Visual identity directions | 2–3 worked directions | Next: pick palette + type, run the image batch, iterate |
+| Finalised visual identity | Logo, colour, type, imagery locked | Next: cut the badger head mark, lock the wordmark lock-up |
+| Brand guidelines | The full document | This file, plus `/brand` |
+| Website copy + design | Blocks and components | Later: apply to yolodex.ai, deck, LinkedIn |
+
+Immediate next steps:
 
 1. Review the four palettes and three type pairings on `/brand`. Pick one of each.
 2. Run the first visual batch (mood tiles, hero, masthead, banner, OG). Iterate.
 3. Cut the badger head mark from the existing character and lock the wordmark lock-up.
-4. Re-cut this document to the Bou blueprint format once Stephen's reference files are in `docs/brand/refs/`.
-5. Apply to the homepage, deck and LinkedIn.
+4. Apply to the homepage, deck and LinkedIn.

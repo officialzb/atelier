@@ -121,6 +121,7 @@ export default function BrandGuide({ images }: { images: string[] }) {
         <Blueprint />
         <Team hasBadger={hasBadger} />
         <Voice />
+        <Verbal />
         <Colour palette={palette} palettes={palettes} onPalette={setPaletteId} />
         <Type pairing={pairing} pairings={pairings} onPairing={setPairingId} />
         <Device heroImage={heroImage} />
@@ -402,6 +403,78 @@ function Voice() {
   );
 }
 
+function AnnotatedLine({ line, parts, why }: { line: string; parts: { text: string; does: string }[]; why: string }) {
+  return (
+    <div className="border border-ink p-6 md:p-8">
+      <p className="t-display text-3xl md:text-5xl">
+        {parts.map((part, i) => (
+          <span key={part.text}>
+            <span className="callout-word">
+              {part.text}
+              <sup className="t-mono text-muted ml-1 align-super text-[0.5em]">{i + 1}</sup>
+            </span>{" "}
+          </span>
+        ))}
+      </p>
+      <ol className="mt-8 grid gap-4 md:grid-cols-2">
+        {parts.map((part, i) => (
+          <li key={part.text} className="border-t border-rule pt-3">
+            <p className="t-mono text-muted">
+              {i + 1} · “{part.text}”
+            </p>
+            <p className="t-body mt-1 text-sm">{part.does}</p>
+          </li>
+        ))}
+      </ol>
+      <p className="t-body mt-8 text-sm">
+        <span className="t-mono text-muted mr-3">Why it works</span>
+        {why}
+      </p>
+      <p className="sr-only">{line}</p>
+    </div>
+  );
+}
+
+function Verbal() {
+  const v = brand.verbal_identity;
+  return (
+    <section>
+      <SectionHead n="04" title="Verbal identity" kicker="brand story · keywords · tagline · category" />
+      <div className="grid gap-10 md:grid-cols-12">
+        <div className="md:col-span-5">
+          <p className="t-mono text-muted mb-3">Tone-of-voice keywords</p>
+          <ol className="space-y-5">
+            {v.tov_keywords.map((k, i) => (
+              <li key={k.name} className="border-t border-rule pt-3">
+                <p className="t-display text-2xl">
+                  {i + 1}. {k.name}
+                </p>
+                <p className="t-body mt-1 text-sm">{k.line}</p>
+              </li>
+            ))}
+          </ol>
+          <p className="t-mono text-muted mt-10 mb-3">Brand story, closing line</p>
+          <p className="t-body font-semibold">{v.brand_story_closing}</p>
+          <p className="t-mono text-muted mt-6">Full story, in-action tables and house styles · docs/brand/yolodex-verbal-identity.md</p>
+        </div>
+        <div className="space-y-8 md:col-span-7">
+          <div>
+            <p className="t-mono text-muted mb-3">Tagline</p>
+            <AnnotatedLine line={v.tagline.line} parts={v.tagline.parts} why={v.tagline.why} />
+          </div>
+          <div>
+            <p className="t-mono text-muted mb-3">Category name</p>
+            <AnnotatedLine line={v.category.name} parts={v.category.parts} why={v.category.why} />
+            <p className="t-body text-muted mt-3 text-sm">
+              Alternatives if needed: {v.category.alternatives.join(" · ")}. Retired: {v.category.retired.join(", ")}.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Swatch({ name, hex, on, large }: { name: string; hex: string; on?: string; large?: boolean }) {
   const ratio = on ? contrast(hex, on) : null;
   return (
@@ -425,7 +498,7 @@ function Swatch({ name, hex, on, large }: { name: string; hex: string; on?: stri
 function Colour({ palette, palettes, onPalette }: { palette: Palette; palettes: Palette[]; onPalette: (id: string) => void }) {
   return (
     <section>
-      <SectionHead n="04" title="Colour" kicker="paper, ink, greys and one signal" />
+      <SectionHead n="05" title="Colour" kicker="paper, ink, greys and one signal" />
       <p className="t-body max-w-3xl">{palette.notes}</p>
       <div className="mt-8 grid grid-cols-2 gap-6 md:grid-cols-6">
         <Swatch name="Paper" hex={palette.paper} large />
@@ -482,7 +555,7 @@ function Colour({ palette, palettes, onPalette }: { palette: Palette; palettes: 
 function Type({ pairing, pairings, onPairing }: { pairing: Pairing; pairings: Pairing[]; onPairing: (id: string) => void }) {
   return (
     <section>
-      <SectionHead n="05" title="Type" kicker={`${pairing.display} · ${pairing.body} · ${pairing.mono}`} />
+      <SectionHead n="06" title="Type" kicker={`${pairing.display} · ${pairing.body} · ${pairing.mono}`} />
       <p className="t-body max-w-3xl">{pairing.notes}</p>
 
       <div className="mt-10 space-y-8">
@@ -571,7 +644,7 @@ function Device({ heroImage }: { heroImage: string | null }) {
   const d = brand.visual.signature_device;
   return (
     <section>
-      <SectionHead n="06" title={d.name} kicker="the signature device" />
+      <SectionHead n="07" title={d.name} kicker="the signature device" />
       <div className="grid gap-10 md:grid-cols-12">
         <div className="md:col-span-5">
           <p className="t-body">{d.description}</p>
@@ -641,13 +714,13 @@ function AnnotatedAdDemo({ compact = false }: { compact?: boolean }) {
 function MoodBoard({ moodImages }: { moodImages: (typeof prompts.images)[number][] }) {
   return (
     <section>
-      <SectionHead n="07" title="Mood board" kicker="visual lines to test" />
+      <SectionHead n="08" title="Mood board" kicker="visual lines to test" />
       <p className="t-body max-w-3xl">{brand.visual.line}</p>
       {moodImages.length === 0 ? (
         <div className="t-body mt-8 border border-dashed border-rule p-8 text-sm">
           <p>No generated images yet. Run the batch locally and they appear here:</p>
           <pre className="t-mono-lc mt-3 whitespace-pre-wrap">
-{`GEMINI_API_KEY=... node --experimental-strip-types scripts/brand/generate-visuals.ts`}
+{`node --env-file=.env.local --experimental-strip-types scripts/brand/generate-visuals.ts`}
           </pre>
           <p className="t-mono text-muted mt-3">Drop the Yolo Badger reference at public/brand/{BADGER_FILE} first.</p>
         </div>
@@ -675,7 +748,7 @@ function aspectCss(aspect: string): string {
 function Assets() {
   return (
     <section>
-      <SectionHead n="08" title="Assets" kicker="what gets made, in order" />
+      <SectionHead n="09" title="Assets" kicker="what gets made, in order" />
       <div className="grid gap-10 md:grid-cols-2">
         <div>
           <p className="t-mono text-muted mb-3">Phase 1</p>

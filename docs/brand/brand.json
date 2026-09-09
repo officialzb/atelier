@@ -1,7 +1,7 @@
 {
   "meta": {
     "brand": "Yolodex",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "date": "2026-09-09",
     "status": "draft for review",
     "owner": "Zaeem Bhanji",
@@ -11,7 +11,8 @@
       "Granola: Zaeem / Rob Snyder advisory call, 8 Sep 2026",
       "Slack #all-yolodex, #competitors, #strategy (Aug–Sep 2026)",
       "Slack DM with Stephen Byrne (Furniture Connect), 3 Sep 2026",
-      "Brand interview with Zaeem, 9 Sep 2026 (see interview.md)"
+      "Brand interview with Zaeem, 9 Sep 2026 (see interview.md)",
+      "Bou x Furniture Connect reference decks (verbal identity board; category naming and tagline session), structure only"
     ]
   },
   "blueprint": {
@@ -370,5 +371,72 @@
       "Case-study one-pager template",
       "Sales deck full template"
     ]
+  },
+  "verbal_identity": {
+    "doc": "docs/brand/yolodex-verbal-identity.md",
+    "brand_story_closing": "Yolodex gives growth teams the creative to scale spend without scaling headcount.",
+    "tov_keywords": [
+      {
+        "name": "Evidence-first",
+        "line": "Every claim carries a number, a name, or a mechanism."
+      },
+      {
+        "name": "Plain",
+        "line": "We explain the machine in words a head of growth can repeat at a dinner."
+      },
+      {
+        "name": "Bullish",
+        "line": "We say what we do and what it does, without hedging."
+      }
+    ],
+    "tagline": {
+      "line": "Creative is the new targeting. We build the creative briefs that win.",
+      "parts": [
+        {
+          "text": "Creative is the new targeting.",
+          "does": "A point of view, not a sales claim. Names the Andromeda-era truth a head of growth already half believes."
+        },
+        {
+          "text": "We build",
+          "does": "Active. Yolodex does the work. A team you hire, not a tool you operate."
+        },
+        {
+          "text": "creative briefs",
+          "does": "The unit of output. The thing a growth team actually ships to production."
+        },
+        {
+          "text": "that win.",
+          "does": "The outcome. Win rate, not volume. Ties the promise to the number we can prove."
+        }
+      ],
+      "why": "Two sentences that each stand alone. The first is a belief that makes Yolodex necessary. The second is a promise that makes Yolodex specific."
+    },
+    "category": {
+      "name": "AI creative strategy team",
+      "parts": [
+        {
+          "text": "AI",
+          "does": "How. Speed, scale and learning. Universally recognised."
+        },
+        {
+          "text": "creative strategy",
+          "does": "The function. The layer that bottlenecks and that the DIY stack fails to automate."
+        },
+        {
+          "text": "team",
+          "does": "Scale and shape. Seven agents with real jobs and a lead, not one assistant."
+        }
+      ],
+      "why": "Simple, factual, says what Yolodex replaces. Nobody in the set can claim 'team' without contradicting their single-assistant framing.",
+      "alternatives": [
+        "Creative strategy agent",
+        "Your AI creative department",
+        "Agentic creative strategy"
+      ],
+      "retired": [
+        "Creative Scientist™",
+        "AI creative strategist"
+      ]
+    }
   }
 }

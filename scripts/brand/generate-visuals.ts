@@ -2,7 +2,9 @@
  * Generate the first batch of Yolodex brand visuals with Gemini's image model
  * ("Nano Banana Pro" = gemini-3-pro-image-preview).
  *
- * Usage (Node 22+, no build step):
+ * Usage (Node 22+, no build step). Put GEMINI_API_KEY=... in .env.local (gitignored), then:
+ *   node --env-file=.env.local --experimental-strip-types scripts/brand/generate-visuals.ts
+ * or pass the key inline for a one-off:
  *   GEMINI_API_KEY=... node --experimental-strip-types scripts/brand/generate-visuals.ts
  *   ... --only hero-annotated-ad,badger-mark     # subset by id
  *   ... --size 2K                                 # 1K (default) | 2K | 4K

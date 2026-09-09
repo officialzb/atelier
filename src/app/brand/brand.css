@@ -114,3 +114,10 @@
   stroke: var(--ink);
   stroke-width: 1;
 }
+
+.brand .callout-word {
+  text-decoration: underline;
+  text-decoration-color: var(--signal);
+  text-decoration-thickness: 0.12em;
+  text-underline-offset: 0.12em;
+}

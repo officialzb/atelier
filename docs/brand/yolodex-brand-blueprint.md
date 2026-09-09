@@ -1,6 +1,6 @@
 # Yolodex brand blueprint
 
-One slide. Everything else in the brand is derived from this page. Draft v0.1, 9 Sep 2026.
+One slide. Everything else in the brand is derived from this page. Draft v0.2, 9 Sep 2026.
 
 | | |
 |---|---|
@@ -40,4 +40,4 @@ Meta's Andromeda-era ranking has made creative the targeting. The brand that fin
 - Signal colour: marker yellow first; salmon paper, oxblood and cobalt are built into the `/brand` page to compare.
 - Type pairing: Instrument Serif + Inter Tight + JetBrains Mono recommended; Fraunces and Newsreader pairings are switchable on `/brand`.
 - Yolo Badger: existing character (round glasses, cream face, charcoal coat) is the mark and favicon from day one. Head mark to be cut from it; character sheet is phase 2.
-- Stephen's Bou reference files: not yet in `docs/brand/refs/`. Structure of this document will be re-cut to mirror the Bou blueprint once they land.
+- Bou reference decks reviewed (verbal identity board, naming and tagline session). The verbal identity doc now follows their structure. Their brand blueprint slide itself was not among the files shared, so this page keeps its own layout.
