@@ -44,7 +44,7 @@ Short sentences. One idea each. No jargon for its own sake, no puns, no cleverne
 
 **We say what we do and what it does, without hedging.**
 
-Yolodex is confident because the results are. We lead with the claim, not with "we think" or "we help". No exclamation marks, no urgency tricks, no ALL CAPS. The confidence comes from specifics and declaratives. We are British and plain, but never understated.
+Yolodex is confident because the results are. We lead with the claim, not with "we think" or "we help". No exclamation marks, no urgency tricks, no ALL CAPS. The confidence comes from specifics and declaratives. We are plain, but never understated.
 
 ---
 
@@ -84,7 +84,7 @@ These are the rules we always action. Everything else is judgement.
 
 | Do | Don't |
 |---|---|
-| Write in British English (optimise, colour, programme). | Assume readers know internal names (persona brain, opportunity matrix). |
+| Pick one spelling convention per piece and keep it consistent. | Assume readers know internal names (persona brain, opportunity matrix). |
 | Write in active voice. "Yolodex writes the brief", not "briefs are generated". | Open with a product claim. Open with the reader's situation or the result. |
 | Lead with the claim, then the evidence, in that order. | Use unlock, supercharge, revolutionise, game-changing, seamless, leverage, cutting-edge, next-level, or "AI-powered" as an adjective. |
 | Put a number, a name, or a mechanism in every claim. | Use exclamation marks or emoji in marketing copy. |

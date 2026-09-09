@@ -14,7 +14,7 @@ One slide. Everything else in the brand is derived from this page. Draft v0.2, 9
 | **Proof style** | Show the machine. Explain the models, the loop and the evidence behind every brief. Then the named-brand numbers. |
 | **Hero story** | Peachies hit a creative wall and couldn't scale briefs even with AI. "We 10x'd our briefing output without increasing the workload on our creative strategists, and improved our win rate. Yolodex briefs now account for 90% of our winning ads." |
 | **Archetype** | The Scientist. Rigorous, curious, bullish, plain-spoken, transparent. |
-| **Voice** | British, plain, very confident. Claim first, evidence second. No exclamation marks. Evidence-led not opinionated. Plain not clever. |
+| **Voice** | Plain, very confident. Claim first, evidence second. No exclamation marks. Evidence-led not opinionated. Plain not clever. |
 | **The team** | Yolo Badger (team lead) + Creative Analyst, Performance Analyst, Insights Researcher, Creative Researcher, Creative Strategist, Copywriter, Experimentation Lead. |
 | **Visual line** | Editorial, far from the SaaS pack. Paper ground, ink type, one signal colour (marker yellow to test first), real ads annotated with the machine's markup. Yolo Badger's head is the mark and favicon; lowercase wordmark beside it. |
 | **Never** | Gradients, blobs, sparkles, purple, dark-mode-by-default, stock photos, "unlock", "supercharge", "AI-powered". |

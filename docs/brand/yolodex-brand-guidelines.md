@@ -26,7 +26,7 @@ The full verbal identity (brand story, three tone-of-voice keywords with Yes/No/
 
 **Archetype: the Scientist.** Rigorous, curious, bullish, plain-spoken, transparent. Yolodex runs the experiment rather than guessing with taste, and it says so without hedging.
 
-**Register.** British, plain, very confident. Not understated. Yolodex states what it does and what the numbers are.
+**Register.** Plain and very confident. Not understated. Yolodex states what it does and what the numbers are.
 
 ### We are / we are not
 
@@ -43,7 +43,7 @@ The full verbal identity (brand story, three tone-of-voice keywords with Yes/No/
 2. Every claim carries a number, a name, or a mechanism.
 3. Short sentences. One idea each.
 4. No exclamation marks in marketing copy. Confidence comes from specifics, not punctuation.
-5. British spelling: optimise, colour, programme.
+5. Pick one spelling convention per piece and keep it consistent.
 6. Contractions are fine. "We" and "you".
 7. Name real brands and real people wherever we have permission.
 8. Explain the machine in plain words. If a reader can't picture how it works, rewrite.

@@ -41,7 +41,7 @@ Rejected: creative discovery, creative search, growth creative engine, creative 
 
 **Q. Archetype?** A. The Scientist.
 
-**Q. Register?** A. British, plain, confident, but not understated. Very confident and bullish.
+**Q. Register?** A. Plain, confident, not understated. Very confident and bullish. (Later note: no nationality in the voice; spelling just has to be consistent.)
 
 **Q. We are / we are not?** A. Evidence-led not opinionated. Plain not clever.
 
